@@ -68,7 +68,7 @@ def calc_correlacao_temporal(df_real, df_cg, coluna_au):
     correlacao, p_value = stats.pearsonr(sinal_real, sinal_cg)
     return correlacao
 
-def executar_teste_estatistico(df_real, df_cg, coluna_au):
+def exec_teste_estatistico(df_real, df_cg, coluna_au):
     """
     Aplica o Teste-T Independente para provar se a diferença de 
     intensidade entre Real e Avatar é estatisticamente significativa.
@@ -82,3 +82,33 @@ def executar_teste_estatistico(df_real, df_cg, coluna_au):
     significativo = p_value < 0.05
 
     return p_value, significativo
+
+def consolidar_analise(df_geral, emocao, tipo_expressao, coluna_au):
+    """
+    Executa todas funções acima e devolve um pacote 
+    completo de métricas para o streamlit utilizar.
+    """
+
+    df_real, df_cg = separar_grupos(df_geral, emocao, tipo_expressao)
+
+    stats_real = calc_estatisticas_descritivas(df_real, coluna_au)
+    stats_cg = calc_estatisticas_descritivas(df_cg, coluna_au)
+
+    suavizacao = calc_suavizacao(stats_real['mediana'], stats_cg['mediana'])
+    correlacao = calc_correlacao_temporal(df_real, df_cg, coluna_au)
+    p_value, significativo = exec_teste_estatistico(df_real, df_cg, coluna_au)
+
+    return {
+        "Real": stats_real,
+        "Virtual": stats_cg,
+        "Metricas_Comparativas": {
+            "Suavizacao_Percentual": suavizacao,
+            "Correlacao_Pearson": correlacao,
+            "P_Value": p_value,
+            "Diferenca_Significativa": significativo
+        },
+        "Dados_Brutos": {
+            "Real": df_real,
+            "Virtual": df_cg
+        }
+    }
