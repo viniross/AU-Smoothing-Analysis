@@ -47,3 +47,23 @@ def calc_suavizacao(mediana_real, mediana_virtual):
     
     perda = ((mediana_real - mediana_virtual) / mediana_real) * 100
     return perda
+
+def calc_correlacao_temporal(df_real, df_cg, coluna_au):
+    """
+    Calcula a correlação de pearson frame a frame.
+    "O movimento do avatar acompanhou o ritmo do humano?"
+    """
+
+    sinal_real = df_real[coluna_au].values
+    sinal_cg = df_cg[coluna_au].values
+
+    tam_min = min(len(sinal_real), len(sinal_cg))
+
+    if tam_min < 2:
+        return 0.0, 1.0 # 0 de correlacao e 1 de p-value
+    
+    sinal_real = sinal_real[:tam_min]
+    sinal_cg = sinal_cg[:tam_min]
+
+    correlacao, p_value = stats.pearsonr(sinal_real, sinal_cg)
+    return correlacao
