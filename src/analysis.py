@@ -67,3 +67,18 @@ def calc_correlacao_temporal(df_real, df_cg, coluna_au):
 
     correlacao, p_value = stats.pearsonr(sinal_real, sinal_cg)
     return correlacao
+
+def executar_teste_estatistico(df_real, df_cg, coluna_au):
+    """
+    Aplica o Teste-T Independente para provar se a diferença de 
+    intensidade entre Real e Avatar é estatisticamente significativa.
+    """
+
+    sinal_real = df_real[coluna_au].dropna()
+    sinal_cg = df_cg[coluna_au].dropna()
+
+    t_stat, p_value = stats.ttest_ind(sinal_real, sinal_cg, equal_var=False)
+
+    significativo = p_value < 0.05
+
+    return p_value, significativo
