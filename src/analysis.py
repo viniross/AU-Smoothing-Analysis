@@ -15,3 +15,23 @@ def separar_grupos(df_geral, emocao, tipo_expressao):
 
     return df_real, df_cg
 
+def calc_estatisticas_descritivas(df, coluna_au):
+    """
+    Calcula Mediana e Variância de uma Action Unit e retorna
+    um dicionário com os resultados.
+    """
+
+    intensidades = df[coluna_au].dropna()
+
+    if intensidades.empty:
+        return {
+            "mediana": 0.0,
+            "variancia": 0.0,
+            "maximo": 0.0
+        }
+    
+    return {
+        "mediana": intensidades.median(),
+        "variancia": intensidades.var(),
+        "maximo": intensidades.max()
+    }
