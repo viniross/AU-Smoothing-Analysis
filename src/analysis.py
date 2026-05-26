@@ -35,3 +35,15 @@ def calc_estatisticas_descritivas(df, coluna_au):
         "variancia": intensidades.var(),
         "maximo": intensidades.max()
     }
+
+def calc_suavizacao(mediana_real, mediana_virtual):
+    """
+    Calcula a porcentagem de perda de intensidade (Suavização)
+    quando a expressão foi transferida para o Avatar.
+    """
+
+    if mediana_real == 0:
+        return 0.0
+    
+    perda = ((mediana_real - mediana_virtual) / mediana_real) * 100
+    return perda
