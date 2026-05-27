@@ -17,6 +17,7 @@ def consolidar_tudo():
                 caminho_completo = os.path.join(caminho_subpasta, nome_arquivo)
 
                 df_temp = pd.read_csv(caminho_completo)
+                df_temp.columns = df_temp.columns.str.strip()
 
                 df_temp['arquivo_origem'] = nome_arquivo
 
