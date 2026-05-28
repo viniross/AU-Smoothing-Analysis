@@ -85,3 +85,22 @@ ax_box.set_xlabel("Ambiente (Domínio)")
 ax_box.set_ylabel("Distribuição da Intensidade")
 
 st.pyplot(fig_box)
+
+st.header("Onde a suavização é mais severa?")
+
+df_planilha_final['Suavizacao_Float'] = df_planilha_final['Suavização (%)'].str.replace('%', '').astype(float)
+
+df_ordenado = df_planilha_final.sort_values(by="Suavizacao_Float", ascending=False)
+
+fig_bar, ax_bar = plt.subplots(figsize=(12,5))
+
+sns.barplot(data=df_ordenado, x="Action Unit", y="Suavizacao_Float", palette="Reds_r", ax=ax_bar)
+
+ax_bar.set_title("Taxa de Perda de Intensidade por Músculo Facial")
+ax_bar.set_ylabel("Perda (%)")
+ax_bar.set_xlabel("Action Units")
+
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+
+st.pyplot(fig_bar)
