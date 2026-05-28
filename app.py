@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 import src.data_loader as loader
 from src.analysis import consolidar_analise
@@ -46,3 +48,26 @@ for au in aus_para_analisar:
 df_planilha_final = pd.DataFrame(linhas_da_planilha)
 
 st.dataframe(df_planilha_final, use_container_width=True)
+
+st.write("Dinâmica Temporal: Real vs Virtual")
+
+au_selecionada_grafico = st.selectbox(
+    "Escolha qual AU desenhar no gráfico: (Geralmente a com maior % na tabela acima)", 
+    aus_para_analisar
+)
+
+resultados_grafico = consolidar_analise(df_geral, emocao_selecionada, tipo_selecionado, au_selecionada_grafico)
+
+df_real = resultados_grafico["Dados_Brutos"]["Real"]
+df_cg = resultados_grafico["Dados_Brutos"]["Virtual"]
+df_plot = pd.concat([df_real, df_cg])
+
+fig_linha, ax_linha = plt.subplots(figsize=(10,4))
+
+sns.lineplot(data=df_plot, x='frame', y=au_selecionada_grafico, hue='dominio', ax=ax_linha)
+
+ax_linha.set_title(f"Evolução de Intensidade da {au_selecionada_grafico} ({emocao_selecionada} - {tipo_selecionado})")
+ax_linha.set_xlabel("Frames (Tempo)")
+ax_linha.set_ylabel("Intensidade (0 a 5)")
+
+st.pyplot(fig_linha)
