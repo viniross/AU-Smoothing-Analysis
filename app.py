@@ -23,6 +23,8 @@ df_geral = carregar_dados()
 
 st.title("Análise de Suavização de AUs (OpenFace)")
 
+st.header("Tabela de Resultados Estatísticos")
+
 emocao_selecionada = st.selectbox("Escolha a Emoção:", ["Alegria", "Medo", "Nojo", "Raiva", "Surpresa", "Tristeza"])
 tipo_selecionado = st.selectbox("Selecione o Tipo", ["Micro", "Macro"])
 
@@ -49,7 +51,7 @@ df_planilha_final = pd.DataFrame(linhas_da_planilha)
 
 st.dataframe(df_planilha_final, use_container_width=True)
 
-st.write("Dinâmica Temporal: Real vs Virtual")
+st.header("Dinâmica Temporal: Real vs Virtual")
 
 au_selecionada_grafico = st.selectbox(
     "Escolha qual AU desenhar no gráfico: (Geralmente a com maior % na tabela acima)", 
