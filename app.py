@@ -22,15 +22,27 @@ df_geral = carregar_dados()
 st.title("Análise de Suavização de AUs (OpenFace)")
 
 emocao_selecionada = st.selectbox("Escolha a Emoção:", ["Alegria", "Medo", "Nojo", "Raiva", "Surpresa", "Tristeza"])
-au_selecionada = st.selectbox("Action Unit:", ["AU06_r", "AU12_r"])
+tipo_selecionado = st.selectbox("Selecione o Tipo", ["Micro", "Macro"])
 
-resultados = consolidar_analise(df_geral, emocao_selecionada, "Micro", au_selecionada)
+linhas_da_planilha = []
 
-st.write("Resultados Estatísticos")
-col1, col2, col3 = st.columns(3)
+aus_para_analisar = ["AU01_r", "AU02_r", "AU04_r", "AU05_r", "AU06_r", "AU07_r", "AU09_r", "AU10_r", "AU12_r", "AU14_r", "AU15_r", "AU17_r", "AU20_r", "AU23_r", "AU25_r", "AU26_r", "AU45_r"]
 
-col1.metric("Mediana (Real)", f"{resultados['Real']['mediana']:.2f}")
-col2.metric("Mediana (Virtual)", f"{resultados['Virtual']['mediana']:.2f}")
-col3.metric("Taxa de Suavização", f"{resultados['Metricas_Comparativas']['Suavizacao_Percentual']:.1f}%")
+for au in aus_para_analisar:
+    res = consolidar_analise(df_geral, emocao_selecionada, tipo_selecionado, au)
 
-st.write(f"**Correlação (O avatar imita bem?):** {resultados['Metricas_Comparativas']['Correlacao_Pearson']:.2f}")
+    linha = {
+        "Action Unit": au,
+        "Mediana Real": res["Real"]["mediana"],
+        "Mediana Virtual": res["Virtual"]["mediana"],
+        "Variância Real": res["Real"]["variancia"],
+        "Variância Virtual": res["Virtual"]["variancia"],
+        "Suavização (%)": f"{res['Metricas_Comparativas']['Suavizacao_Percentual']:.2f}%",
+        "Correlação de Pearson": res["Metricas_Comparativas"]["Correlacao_Pearson"]
+    }
+
+    linhas_da_planilha.append(linha)
+
+df_planilha_final = pd.DataFrame(linhas_da_planilha)
+
+st.dataframe(df_planilha_final, use_container_width=True)
