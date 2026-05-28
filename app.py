@@ -73,3 +73,15 @@ ax_linha.set_xlabel("Frames (Tempo)")
 ax_linha.set_ylabel("Intensidade (0 a 5)")
 
 st.pyplot(fig_linha)
+
+st.header("Dispersão e Variância da Expressão")
+
+fig_box, ax_box = plt.subplots(figsize=(8,4))
+
+sns.boxplot(data=df_plot, x='dominio', y=au_selecionada_grafico, palette="Set2", ax=ax_box)
+
+ax_box.set_title(f"Evolução de Intensidade da {au_selecionada_grafico} ({emocao_selecionada} - {tipo_selecionado})")
+ax_box.set_xlabel("Ambiente (Domínio)")
+ax_box.set_ylabel("Distribuição da Intensidade")
+
+st.pyplot(fig_box)
