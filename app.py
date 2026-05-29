@@ -6,6 +6,7 @@ import seaborn as sns
 
 import src.data_loader as loader
 from src.analysis import consolidar_analise
+from src.analysis import obter_top_frames_aus
 
 caminho_arquivo_geral = "data/processed/dataset_consolidado.csv"
 
@@ -50,6 +51,17 @@ for au in aus_para_analisar:
 df_planilha_final = pd.DataFrame(linhas_da_planilha)
 
 st.dataframe(df_planilha_final, use_container_width=True)
+
+st.header("Inspeção de Picos Máximos (Frames)")
+
+dominio_pico = st.radio("Qual ambiente inspecionar?", ["Real", "Virtual"])
+
+df_picos = obter_top_frames_aus(df_geral, emocao_selecionada, tipo_selecionado, dominio=dominio_pico)
+
+if not df_picos.empty:
+    st.dataframe(df_picos, use_container_width=True)
+else:
+    st.warning("Nenhum dado encontrado para essa combinação.")
 
 st.header("Dinâmica Temporal: Real vs Virtual")
 
