@@ -83,6 +83,41 @@ def exec_teste_estatistico(df_real, df_cg, coluna_au):
 
     return p_value, significativo
 
+def obter_top_frames_aus(df_geral, emocao, tipo_expressao, dominio="Real", top_n_aus=5, top_n_frames=5):
+    """
+    Busca as AUs que atingiriam a maior força bruta e retorna 
+    em quais frames exatos esses picos aconteceram.
+    """
+
+    df_video = df_geral[(df_geral['Emocao'] == emocao) &
+                        (df_geral['Tipo'] == tipo_expressao) &
+                        (df_geral['dominio'] == dominio)]
+    
+    if df_video.empty: 
+        return pd.DataFrame()
+    
+    colunas_aus = [col for col in df_video.columns if col.startswith('AU') and col.endswith('_r')]
+
+    maximos_por_au = df_video[colunas_aus].max()
+
+    top_aus_nomes = maximos_por_au.nlargest(top_n_aus).index.tolist()
+
+    lista_resultados = []
+
+    for au in top_aus_nomes:
+        top_linhas = df_video.nlargest(top_n_frames, au)
+
+        for _, linha in top_linhas.iterrows():
+            lista_resultados.append({
+                "Action Unit": au,
+                "Frame": int(linha['frame']),
+                "Intensidade Bruta (0-5)": linha[au]
+            })
+
+    df_resultados = pd.DataFrame(lista_resultados)
+
+    return df_resultados
+
 def consolidar_analise(df_geral, emocao, tipo_expressao, coluna_au):
     """
     Executa todas funções acima e devolve um pacote 
