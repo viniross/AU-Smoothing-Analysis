@@ -96,8 +96,8 @@ Para verificar se a diferença de intensidade entre as expressões real e virtua
 2.  Clone este repositório.
 
      ```bash
-    git clone https://github.com/viniross/ActionUnitiesAnalysis.git
-    cd ActionUnitiesAnalysis
+    git clone https://github.com/viniross/AU-Smoothing-Analysis.git
+    cd AU-Smoothing-Analysis
     ```
 3.  Instale as dependências: `pip install -r requirements.txt`.
 4.  Se os dados brutos foram atualizados, execute o script de consolidação: `python src/data_loader.py`.
