@@ -23,7 +23,7 @@ O pipeline de engenharia de dados consolida as leituras de expressões reais e v
 * **Correlação de Pearson:** Avalia a sincronia temporal, respondendo se o modelo virtual acompanha o ritmo da contraparte humana ou se apresenta atrasos (delay) no ápice da expressão.
 
 ###  Pipeline e Tecnologias
-A arquitetura do estudo envolve ferramentas padrão da indústria para captura e animação, como **MediaPipe** e **LiveLink**, com renderização no ambiente da **Unreal Engine 4**. A camada de processamento de dados e visualização científica é construída inteiramente em Python (Pandas, SciPy, Seaborn e Streamlit).
+A arquitetura do estudo envolve ferramentas padrão da indústria para captura e animação, como **MediaPipe** e **LiveLink**, com renderização no ambiente da **Unreal Engine 4**. A camada de processamento de dados e visualização científica é construída inteiramente em Python (Pandas, NumPy, SciPy, Matplotlib, Seaborn e Streamlit).
 
 ---
 **Equipe de Pesquisa e Desenvolvimento:**
