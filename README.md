@@ -67,7 +67,7 @@ Para cada Action Unit, são calculadas as seguintes estatísticas descritivas ta
 A suavização quantifica a perda de intensidade da expressão ao ser transferida para o avatar. A fórmula é:
 
 $$
-\text{Suavização} (\%) = \frac{\text{Mediana}_{\text{Real}} - \text{Mediana}_{\text{Virtual}}}{\text{Mediana}_{\text{Real}}} \times 100
+\text{Suavização} = \frac{\text{Mediana}_{\text{Real}} - \text{Mediana}_{\text{Virtual}}}{\text{Mediana}_{\text{Real}}} \times 100
 $$
 
 Um valor positivo indica uma perda de intensidade (a expressão do avatar é mais fraca), enquanto um valor negativo sugere uma intensificação.
