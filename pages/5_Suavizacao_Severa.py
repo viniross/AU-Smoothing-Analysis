@@ -11,10 +11,7 @@ df_geral = carregar_dados_mestre()
 
 emocao_selecionada, tipo_selecionado = exibir_filtros_padrao()
 
-au_selecionada_grafico = st.selectbox(
-    "Escolha qual AU desenhar no gráfico:", 
-    AUS_DISPONIVEIS
-)
+
 
 linhas_da_planilha = []
 
