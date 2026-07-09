@@ -41,9 +41,26 @@ def plotar_grafico_barra(df_planilha_final):
     ax_bar.set_ylabel("Suavização (%)")
     ax_bar.set_xlabel("Action Units")
     ax_bar.axhline(0, color='black', linewidth=1.2)
-    ax_bar.set_ylim(-100, 100)
 
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
 
+    return fig_bar
+
+def plotar_grafico_distorcao_emocao(df_distorcao, tipo_selecionado):
+    """Gera um gráfico de barras com a média de distorção absoluta por emoção"""
+    
+    fig_bar, ax_bar = plt.subplots(figsize=(10, 5))
+    
+    sns.barplot(data=df_distorcao, x="Emocao", y="Distorcao_Absoluta_Media", palette="Reds_r", ax=ax_bar)
+    
+    ax_bar.set_title(f"Magnitude Média de Distorção por Emoção ({tipo_selecionado})")
+    ax_bar.set_ylabel("Distorção Média Absoluta (%)")
+    ax_bar.set_xlabel("Emoções")
+    
+    ax_bar.set_ylim(0, 200)
+    
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    
     return fig_bar

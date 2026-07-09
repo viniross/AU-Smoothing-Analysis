@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 
 from src.analysis import consolidar_analise
+from src.analysis import calc_distorcao_absoluta_por_emocao
+from src.plots import plotar_grafico_distorcao_emocao
 from src.utils import carregar_dados_mestre, exibir_filtros_padrao, AUS_DISPONIVEIS
 
 st.title("Tabela de Resultados Estatísticos")
@@ -30,3 +32,14 @@ for au in AUS_DISPONIVEIS:
 df_planilha_final = pd.DataFrame(linhas_da_planilha)
 
 st.dataframe(df_planilha_final, use_container_width=True)
+
+st.subheader("Análise Global: Qual emoção sofre mais distorção?")
+
+# 1. Calcula a tabela com os dados
+df_distorcao_emocoes = calc_distorcao_absoluta_por_emocao(df_geral, tipo_selecionado)
+
+# 2. Gera o gráfico
+figura_distorcao = plotar_grafico_distorcao_emocao(df_distorcao_emocoes, tipo_selecionado)
+
+# 3. Mostra no ecrã
+st.pyplot(figura_distorcao)

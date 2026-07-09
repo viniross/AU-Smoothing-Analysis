@@ -118,6 +118,50 @@ def obter_top_frames_aus(df_geral, emocao, tipo_expressao, dominio="Real", top_n
 
     return df_resultados
 
+def calc_distorcao_absoluta_por_emocao(df_geral, tipo_selecionado):
+    """
+    Calcula a média da magnitude do erro (valor absoluto da suavização) 
+    para cada emoção, convertendo ganhos e perdas em distorção pura.
+    """
+
+    df_tipo = df_geral[df_geral['Tipo'] == tipo_selecionado]
+    
+    
+    emocoes = df_tipo['Emocao'].unique()
+    colunas_aus = [col for col in df_tipo.columns if col.startswith('AU') and col.endswith('_r')]
+    
+    resultados = []
+    
+    for emocao in emocoes:
+        
+        df_real, df_virtual = separar_grupos(df_tipo, emocao, tipo_selecionado)
+        
+        lista_suavizacoes_absolutas = []
+        
+        for au in colunas_aus:
+            mediana_real = df_real[au].median()
+            mediana_virtual = df_virtual[au].median()
+            
+            
+            if pd.notna(mediana_real) and mediana_real > 0:
+                suavizacao = calc_suavizacao(mediana_real, mediana_virtual)
+                
+                lista_suavizacoes_absolutas.append(abs(suavizacao))
+        
+        if lista_suavizacoes_absolutas:
+            media_distorcao = np.mean(lista_suavizacoes_absolutas)
+            resultados.append({
+                "Emocao": emocao,
+                "Distorcao_Absoluta_Media": media_distorcao
+            })
+            
+    df_resultados = pd.DataFrame(resultados)
+    
+    if not df_resultados.empty:
+        df_resultados = df_resultados.sort_values(by="Distorcao_Absoluta_Media", ascending=False)
+        
+    return df_resultados
+
 def consolidar_analise(df_geral, emocao, tipo_expressao, coluna_au):
     """
     Executa todas funções acima e devolve um pacote 
