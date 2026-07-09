@@ -11,6 +11,7 @@ def plotar_linha_temporal(df_plot, au_selecionada_grafico, emocao_selecionada, t
     ax_linha.set_title(f"Evolução de Intensidade da {au_selecionada_grafico} ({emocao_selecionada} - {tipo_selecionado})")
     ax_linha.set_xlabel("Frames (Tempo)")
     ax_linha.set_ylabel("Intensidade (0 a 5)")
+    ax_linha.set_ylim(0, 5)
 
     return fig_linha
 
@@ -23,6 +24,7 @@ def plotar_diag_caixa(df_plot, au_selecionada_grafico, emocao_selecionada, tipo_
     ax_box.set_title(f"Dispersão da Variância da {au_selecionada_grafico} ({emocao_selecionada} - {tipo_selecionado})")
     ax_box.set_xlabel("Ambiente (Domínio)")
     ax_box.set_ylabel("Distribuição da Intensidade")
+    ax_box.set_ylim(0, 5)
 
     return fig_box
 
@@ -33,11 +35,13 @@ def plotar_grafico_barra(df_planilha_final):
     df_ordenado = df_planilha_final.sort_values(by="Suavizacao_Float", ascending=False)
 
     fig_bar, ax_bar = plt.subplots(figsize=(12,5))
-    sns.barplot(data=df_ordenado, x="Action Unit", y="Suavizacao_Float", palette="Reds_r", ax=ax_bar)
+    sns.barplot(data=df_ordenado, x="Action Unit", y="Suavizacao_Float", palette="coolwarm", ax=ax_bar)
 
     ax_bar.set_title("Taxa de Perda de Intensidade por Músculo Facial")
-    ax_bar.set_ylabel("Perda (%)")
+    ax_bar.set_ylabel("Suavização (%)")
     ax_bar.set_xlabel("Action Units")
+    ax_bar.axhline(0, color='black', linewidth=1.2)
+    ax_bar.set_ylim(-100, 100)
 
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
